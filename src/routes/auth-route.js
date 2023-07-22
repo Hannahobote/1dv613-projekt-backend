@@ -1,0 +1,14 @@
+import express from 'express'
+import { AuthController } from '../controller/auth-controller.js'
+export const router = express.Router()
+
+const authController = new AuthController()
+
+// register user
+router.post('/register', (req, res, next) => authController.register(req, res, next))
+
+// login
+router.post('/login', (req, res, next) => authController.login(req, res, next))
+
+// get all users
+router.get('/users', (req, res, next) => authController.read(req, res, next))

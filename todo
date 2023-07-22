@@ -1,0 +1,5 @@
+[] import packages
+[] start sserver
+[] make routes
+[] make one controller + route
+[] deplloy on render when one route works
