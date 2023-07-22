@@ -18,7 +18,7 @@ export class AuthController {
         if (validPassword) {
 
           //generate an accesstoken and send it back
-          const payload = { user: user._id }
+          const payload = { user }
           const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '600s' })
 
           res
@@ -45,7 +45,14 @@ export class AuthController {
   }
 
   async userPremission(req, res, next) {
-
+    // check if user is admin
+    if(req.user.user.role === 'admin') {
+      next()
+    } else {
+      res
+        .status(400)
+        .send({error: 'not allowed'})
+    }
   }
 
   async authorize(req, res, next) {

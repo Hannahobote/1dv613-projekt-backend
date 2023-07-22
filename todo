@@ -3,3 +3,8 @@
 [] make routes
 [] make one controller + route
 [] deplloy on render when one route works
+
+
+client
+[] send token as bearer token in fetch request?
+  https://reqbin.com/code/javascript/ricgaie0/javascript-fetch-bearer-token 
