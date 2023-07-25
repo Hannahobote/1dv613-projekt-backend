@@ -44,6 +44,13 @@ export class AuthController {
 
   }
 
+  /**
+   * Checks if user is admin.
+   *
+   * @param {*} req  .
+   * @param {*} res  .
+   * @param {*} next .
+   */
   async userPremission(req, res, next) {
     // check if user is admin
     if(req.user.user.role === 'admin') {

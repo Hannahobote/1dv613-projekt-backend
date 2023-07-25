@@ -10,5 +10,3 @@ router.post('/register', (req, res, next) => authController.register(req, res, n
 // login
 router.post('/login', (req, res, next) => authController.login(req, res, next))
 
-// get all users
-router.get('/users', (req, res, next) => authController.read(req, res, next))

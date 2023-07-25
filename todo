@@ -1,8 +1,8 @@
-[] import packages
-[] start sserver
-[] make routes
-[] make one controller + route
-[] deplloy on render when one route works
+[x] import packages
+[x] start sserver
+[x] make routes
+[x] make one controller + route
+[] deploy on render when one route works
 
 
 client
