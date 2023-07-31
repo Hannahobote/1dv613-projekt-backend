@@ -10,7 +10,7 @@ const auth = new AuthController()
 router.post('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => patient.create(req, res, next))
 
 // Read one
-router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.readOne(req, res , next))
+router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => patient.readOne(req, res , next))
 
 // read all patients
 router.get('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => patient.readAll(req, res , next))
