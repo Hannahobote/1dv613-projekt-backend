@@ -1,6 +1,7 @@
 import { Employee } from "../models/employee-model.js"
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
+import { Document } from "../models/document-model.js"
 
 export class AuthController {
 
@@ -25,6 +26,7 @@ export class AuthController {
             .status(200)
             .send({
               accessToken,
+              user,
               msg: 'Access token will expire after 10 minutes. Kindly log in again when it expires, to get a new token.',
             })
 
@@ -45,40 +47,72 @@ export class AuthController {
   }
 
   /**
-   * Checks if user is admin.
-   *
+   * Checks if user is admin. This is used for manipulating patient info, employee info.
+   * Only admin is allowed to manipulate anther employee or patient info.
    * @param {*} req  .
    * @param {*} res  .
    * @param {*} next .
    */
-  async userPremission(req, res, next) {
+  async userPremissionAdmin(req, res, next) {
     // check if user is admin
-    if(req.user.user.role === 'admin') {
+    if (req.user.user.role === 'admin') {
       next()
     } else {
       res
         .status(400)
-        .send({error: 'not allowed'})
+        .send({ error: 'not allowed' })
     }
   }
 
+  /**
+ * Checks if user is admin, can update or delete.
+ * Employee is only allowed to manipulate documents they have created.
+ *
+ * @param {*} req  .
+ * @param {*} res  .
+ * @param {*} next .
+ */
+  async userPremissionAdminAndEmployee(req, res, next) {
+    // check if user is admin or owner of resouce 
+    const document = await Document.findById({ _id: req.params.id })
+
+    if (req.user.user.role === 'admin') {
+      next()
+    } else if (document.authorId === req.user.user.id) {
+      console.log(document.authorId === req.user.user.id)
+      next()
+    } else {
+      res
+        .status(400)
+        .send({ error: 'not allowed: user is not creator of this resource' })
+    }
+  }
+
+  /**
+   * Authorize: give certain access to user. Cheks i user is logged in.
+   *
+   * @param {*} req .
+   * @param {*} res .
+   * @param {*} next .
+   * @returns 
+   */
   async authorize(req, res, next) {
     try {
       const authHeader = req.headers['authorization']
       const token = authHeader && authHeader.split(' ')[1]
-      
-      if(token === null) {
+
+      if (token === null) {
         return res.sendStatus(401)
       }
-  
+
       jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if(err) {
+        if (err) {
           return res.sendStatus(403)
-        } 
+        }
         req.user = user
         next()
       })
-  
+
     } catch (error) {
       next(error)
     }

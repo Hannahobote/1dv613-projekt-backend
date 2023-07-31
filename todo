@@ -2,7 +2,11 @@
 [x] start sserver
 [x] make routes
 [x] make one controller + route
-[] deploy on render when one route works
+[x] deploy on render when one route works
+[] id will be auo sent in req object when a user updates a certain document?
+[] make logout func in AuthController
+[] test all routes localy and deployed
+[] throw errr id recpurce does not exist if update or delete or find one. All controllers!!
 
 
 client

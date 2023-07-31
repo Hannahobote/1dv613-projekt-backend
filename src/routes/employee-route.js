@@ -8,19 +8,19 @@ const auth = new AuthController()
 
 
 // get all employees
-router.get('/', auth.authorize, auth.userPremission, (req, res, next) => employee.getAll(req, res , next))
+router.get('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.getAll(req, res , next))
 
 
 // register (create)
-router.post('/', auth.authorize, auth.userPremission, (req, res, next) => employee.reister(req, res, next))
+router.post('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.reister(req, res, next))
 
 
 // get one employee (read)
-router.get('/:id', auth.authorize, auth.userPremission, (req, res, next) => employee.getOne(req, res , next))
+router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.getOne(req, res , next))
 
 
 // update one employee
-router.get('/:id', auth.authorize, auth.userPremission, (req, res, next) => employee.update(req, res , next))
+router.put('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.update(req, res , next))
 
 // delete one employee
-router.get('/:id', auth.authorize, auth.userPremission, (req, res, next) => employee.delete(req, res , next))
+router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.delete(req, res , next))

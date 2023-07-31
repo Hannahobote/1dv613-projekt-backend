@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 })
 
 // Register routes.
-app.use('/api/patient', patientRoute)
+app.use('/api/patients', patientRoute)
 app.use('/api/document', docRoute)
 app.use('/api/auth', authRouter)
 app.use('/api/employee', employeeRoute)
