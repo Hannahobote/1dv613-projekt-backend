@@ -5,9 +5,12 @@
 [x] deploy on render when one route works
 [] id will be auo sent in req object when a user updates a certain document?
 [] make logout func in AuthController¨
-[] tets patient routes
+[x] test patient routes
 [] test all routes localy and deployed
-[] throw errr id recpurce does not exist if update or delete or find one. All controllers!!
+[] throw err if resource  does not exist if find one, update or delete or find one. All controllers!!
+  - Patient controller [x]
+  - Document controller []
+  - Employee controller []
 
 
 client

@@ -17,6 +17,7 @@ export class PatientController {
         .status(201)
         .json(patient)
     } catch (error) {
+      console.log(error)
       next(error)
     }
   }
@@ -34,10 +35,16 @@ export class PatientController {
 
   async readOne(req, res, next) {
     try {
-      const patient = await Patient.findById({ _id: req.params.id })
-      res
-        .status(200)
-        .send(patient)
+      if(await this.patientExist(req.params.id)) {
+        const patient = await Patient.findById({ _id: req.params.id })
+        res
+          .status(200)
+          .send(patient)
+      } else {
+        res
+          .status(404)
+          .send('patient not found')
+      }
     } catch (error) {
       console.log(error)
       next(error)
@@ -59,7 +66,6 @@ export class PatientController {
       if (result.acknowledged) {
         // send updated 
         const updatedPatient = await Patient.findOne({ _id: req.params.id})
-        console.log(updatedPatient)
         res
           .status(200)
           .send({ 'Updated patient': updatedPatient })
@@ -77,12 +83,30 @@ export class PatientController {
 
   async delete(req, res, next) {
     try {
-      await Patient.deleteOne({ _id: req.params.id })
-      res
-        .status(204)
+      if(await this.patientExist(req.params.id)) {
+        await Patient.deleteOne({ _id: req.params.id })
+        res
+          .status(204)
+          .end()
+      } else {
+        res
+        .status(404)
+        .send('Patient not found')
         .end()
+      }
     } catch (error) {
       next(error)
+    }
+  }
+
+ async patientExist(_id) {
+    const patient = await Patient.findOne({ _id })
+    if(patient === null) {
+      console.log('Patient not found')
+      return false
+    } else {
+      console.log('patient exist')
+      return true
     }
   }
 }
