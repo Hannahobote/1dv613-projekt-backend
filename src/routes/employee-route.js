@@ -20,7 +20,7 @@ router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) =>
 
 
 // update one employee
-router.put('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.update(req, res , next))
+router.patch('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.update(req, res , next))
 
 // delete one employee
 router.delete('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.delete(req, res , next))

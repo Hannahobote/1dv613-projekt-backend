@@ -17,7 +17,7 @@ router.get('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => pa
 
 
 // update one patient
-router.put('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => patient.update(req, res , next))
+router.patch('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => patient.update(req, res , next))
 
 // delete one patient
 router.delete('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => patient.delete(req, res , next))

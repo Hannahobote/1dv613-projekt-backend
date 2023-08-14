@@ -2,6 +2,7 @@ import { Patient } from "../models/patient-model.js"
 
 export class PatientController {
   async create(req, res, next) {
+    console.log(req.user.user)
     try {
       const patient = new Patient({
         name: req.body.name,
@@ -9,7 +10,8 @@ export class PatientController {
         personnr: req.body.personnr,
         phonenr: req.body.phonenr,
         adress: req.body.adress,
-        kontaktman: req.body.kontaktman
+        kontaktman_id: req.body.kontaktman_id,
+        kontaktman_name: req.body.kontaktman_name
       })
 
       await patient.save()

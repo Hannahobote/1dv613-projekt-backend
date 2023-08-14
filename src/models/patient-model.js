@@ -23,8 +23,12 @@ export const patientsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  kontaktman: {
+  kontaktman_id: {
     type: mongoose.Types.ObjectId,
+    required: true
+  },
+  kontaktman_name: {
+    type: String,
     required: true
   }
 }, {

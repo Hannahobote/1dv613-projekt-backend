@@ -100,18 +100,32 @@ export class EmployeeController {
     try {
 
       if (await Employee.findById({ _id: req.params.id })) {
-        // hash password
-        const hash = await bcrypt.hash(req.body.password, 10)
+        let result = {}
 
-        const result = await Employee.updateOne({ _id: req.params.id }, {
-          username: req.body.username,
-          password: hash,
-          name: req.body.name,
-          surname: req.body.surname,
-          personnr: req.body.personnr,
-          worknr: req.body.worknr,
-          role: req.body.role
-        })
+        // if admin wants to update password, then include in the update
+        console.log(req.body.password)
+        if (req.body.password) {
+          // hash password
+          const hash = await bcrypt.hash(req.body.password, 10)
+          result = await Employee.updateOne({ _id: req.params.id }, {
+            username: req.body.username,
+            password: hash,
+            name: req.body.name,
+            surname: req.body.surname,
+            personnr: req.body.personnr,
+            worknr: req.body.worknr,
+            role: req.body.role
+          })
+        } else {
+          result = await Employee.updateOne({ _id: req.params.id }, {
+            username: req.body.username,
+            name: req.body.name,
+            surname: req.body.surname,
+            personnr: req.body.personnr,
+            worknr: req.body.worknr,
+            role: req.body.role
+          })
+        }
 
         if (result.acknowledged) {
           // send updated employee 
