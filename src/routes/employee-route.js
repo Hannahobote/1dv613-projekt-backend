@@ -12,15 +12,15 @@ router.get('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => em
 
 
 // register (create)
-router.post('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.reister(req, res, next))
+router.post('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.register(req, res, next))
 
 
 // get one employee (read)
-router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.getOne(req, res , next))
+router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.readOne(req, res , next))
 
 
 // update one employee
 router.put('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.update(req, res , next))
 
 // delete one employee
-router.get('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.delete(req, res , next))
+router.delete('/:id', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.delete(req, res , next))

@@ -1,4 +1,5 @@
 import { Employee } from "../models/employee-model.js"
+import bcrypt from 'bcrypt'
 
 export class EmployeeController {
 

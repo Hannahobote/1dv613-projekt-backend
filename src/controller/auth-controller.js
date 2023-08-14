@@ -117,4 +117,22 @@ export class AuthController {
       next(error)
     }
   }
+
+
+  async currentUser(req, res, next) {
+    try {
+
+      if(req.user.user) {
+        res
+          .status(200)
+          .send({current_user: req.user.user})
+      } else {
+        res
+          .status(404)
+          .send('There is no user signed in at the moment.')
+      }
+    } catch (error) {
+      next(error)
+    }
+  }
 }

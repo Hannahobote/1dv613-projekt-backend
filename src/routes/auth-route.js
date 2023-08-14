@@ -10,3 +10,6 @@ router.post('/register', (req, res, next) => authController.register(req, res, n
 // login
 router.post('/login', (req, res, next) => authController.login(req, res, next))
 
+// current user
+router.get('/current-user', authController.authorize, (req, res, next) => authController.currentUser(req, res, next))
+
