@@ -3,14 +3,17 @@
 [x] make routes
 [x] make one controller + route
 [x] deploy on render when one route works
-[] id will be auo sent in req object when a user updates a certain document?
+[] id will be auto sent in req object when a user updates a certain document?
 [] make logout func in AuthController¨
 [x] test patient routes
 [] test all routes localy and deployed
 [] throw err if resource  does not exist if find one, update or delete or find one. All controllers!!
   - Patient controller [x]
-  - Document controller []
+  - Document controller [x]
   - Employee controller []
+- add on patient schema
+  - [] kontaktman_id
+  - [] kontaktman_name
 
 
 client

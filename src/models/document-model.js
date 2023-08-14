@@ -5,16 +5,20 @@ export const DocumentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  author: {
+  author_name: {
     type: String,
     required: true,
   },
-  authorId: {
+  author_id: {
     type: mongoose.Types.ObjectId,
     required: true,
   },
-  patient: {
+  patient_id: {
     type: mongoose.Types.ObjectId,
+    required: true,
+  },
+  patient_name: {
+    type: String,
     required: true,
   },
   report: {

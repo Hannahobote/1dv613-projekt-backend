@@ -15,8 +15,8 @@ router.get('/', auth.authorize ,(req, res, next) => document.read(req, res, next
 // read one
 router.get('/:id', auth.authorize ,(req, res, next) => document.readOne(req, res, next))
 
-// update one
-router.put('/:id', auth.authorize, auth.userPremissionAdminAndEmployee,(req, res, next) => document.update(req, res, next))
+// update one, partial update
+router.patch('/:id', auth.authorize, auth.userPremissionAdminAndEmployee,(req, res, next) => document.update(req, res, next))
 
 // delete one
 router.delete('/:id', auth.authorize, auth.userPremissionAdminAndEmployee,(req, res, next) => document.delete(req, res, next))

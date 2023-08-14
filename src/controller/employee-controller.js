@@ -68,36 +68,67 @@ export class EmployeeController {
 
 
   async read(req, res, next) {
+    try {
+      const allEmployees = await Employee.find({})
+      res
+        .status(200)
+        .send(allEmployees)
+    } catch (error) {
+      next(error)
+    }
+  }
 
+  async readOne(req, res, next) {
+    try {
+      const employee = await Employee.findById({ _id: req.params.id })
+      if (employee) {
+        res
+          .status(200)
+          .send(employee)
+      } else {
+        res
+          .status(404)
+          .end()
+      }
+    } catch (error) {
+      next(error)
+    }
   }
 
   async update(req, res, next) {
     try {
-      // hash password
-      const hash = await bcrypt.hash(req.body.password, 10)
 
-      const result = await Employee.updateOne({ _id: req.param.id }, {
-        username: req.body.username,
-        password: hash,
-        name: req.body.name,
-        surname: req.body.surname,
-        personnr: req.body.personnr,
-        worknr: req.body.worknr,
-        role: req.body.role
-      })
+      if (await Employee.findById({ _id: req.params.id })) {
+        // hash password
+        const hash = await bcrypt.hash(req.body.password, 10)
 
-      if (result.acknowledged) {
-        // send updated employee 
-        const updatedEmployee = await Employee.findOne({ _id: req.params.id })
-        res
-          .status(200)
-          .send({ 'Updated employee': updatedEmployee })
+        const result = await Employee.updateOne({ _id: req.params.id }, {
+          username: req.body.username,
+          password: hash,
+          name: req.body.name,
+          surname: req.body.surname,
+          personnr: req.body.personnr,
+          worknr: req.body.worknr,
+          role: req.body.role
+        })
+
+        if (result.acknowledged) {
+          // send updated employee 
+          const updatedEmployee = await Employee.findOne({ _id: req.params.id })
+          res
+            .status(200)
+            .send({ 'Updated employee': updatedEmployee })
+        } else {
+          res
+            .status(400)
+            .send({ msg: 'invalid credentials' })
+        }
+
       } else {
         res
-          .status(400)
-          .send({ msg: 'invalid credentials' })
+          .status(404)
+          .end()
       }
-
     } catch (error) {
       next(error)
     }
@@ -105,11 +136,17 @@ export class EmployeeController {
 
   async delete(req, res, next) {
     try {
-      // delete one employee
-      await Employee.deleteOne({ _id: req.param.id })
-      res
-        .status(204)
-        .end()
+      if (await Employee.findById({ _id: req.params.id })) {
+        // delete one employee
+        await Employee.deleteOne({ _id: req.params.id })
+        res
+          .status(204)
+          .end()
+      } else {
+        res
+          .status(404)
+          .end()
+      }
     } catch (error) {
       next(error)
     }
