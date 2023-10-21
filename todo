@@ -5,7 +5,7 @@
 [x] deploy on render when one route works
 [] make logout func in AuthController¨
 [x] test patient routes
-[] test all routes localy and deployed
+[x] test all routes localy and deployed
 [x] throw err if resource  does not exist if find one, update or delete or find one. All controllers!!
   - Patient controller [x]
   - Document controller [x]
@@ -13,7 +13,7 @@
 - add on patient schema
   - [x] kontaktman_id
   - [x] kontaktman_name
-  - [ ] update previous patients add the new fields.
+  - [-] update previous patients add the new fields.
 
 
 client

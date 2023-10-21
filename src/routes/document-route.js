@@ -16,10 +16,10 @@ router.get('/', auth.authorize ,(req, res, next) => document.read(req, res, next
 router.get('/:id', auth.authorize ,(req, res, next) => document.readOne(req, res, next))
 
 // update one, partial update
-router.patch('/:id', auth.authorize, auth.userPremissionAdminAndEmployee,(req, res, next) => document.update(req, res, next))
+router.patch('/:id', auth.authorize, auth.userPremissionEmployeeDocument,(req, res, next) => document.update(req, res, next))
 
 // delete one
-router.delete('/:id', auth.authorize, auth.userPremissionAdminAndEmployee,(req, res, next) => document.delete(req, res, next))
+router.delete('/:id', auth.authorize, auth.userPremissionEmployeeDocument,(req, res, next) => document.delete(req, res, next))
 
 
 

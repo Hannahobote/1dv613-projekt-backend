@@ -2,6 +2,7 @@ import { Employee } from "../models/employee-model.js"
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken"
 import { Document } from "../models/document-model.js"
+import { Patient } from "../models/patient-model.js"
 
 export class AuthController {
 
@@ -60,33 +61,56 @@ export class AuthController {
     } else {
       res
         .status(400)
-        .send({ error: 'not allowed' })
+        .send({ error: 'Not allowed: The user is not an admin and therefore cannot modify this resource.' })
     }
   }
 
   /**
- * Checks if user is admin, can update or delete.
+ * Checks if user is the creator of the docuemnt.
  * Employee is only allowed to manipulate documents they have created.
  *
  * @param {*} req  .
  * @param {*} res  .
  * @param {*} next .
  */
-  async userPremissionAdminAndEmployee(req, res, next) {
-    // check if user is admin or owner of resouce 
+  async userPremissionEmployeeDocument(req, res, next) {
     const document = await Document.findById({ _id: req.params.id })
 
-    if (req.user.user.role === 'admin') {
-      next()
-    } else if (document.authorId === req.user.user.id) {
-      console.log(document.authorId === req.user.user.id)
+    if(document) {
+      console.log(req.user.user.role)
+      // checks if signed in user is admin or creator of resource
+      if(document.author_id.toString() === req.user.user._id ||req.user.user.role == "admin" ) {
+        next()
+      } else {
+        res 
+          .status(400)
+          .send({ error: 'not allowed: user is not creator of this resource' })
+      }
+    } else {
+      res 
+        .status(404)
+        .send({error: 'Document not found'})
+    }
+  }
+
+  /**
+   * Checks if current signed in user is kontakt man of the patient resource.
+   *
+   * @param {*} req .
+   * @param {*} res .
+   * @param {*} next .
+   */
+  /*async userPremissionEmployeePatient(req, res, next) {
+    const patient = await Patient.find({ _id: req.params.id})
+
+    if(patient.kontaktman._id = req.user.user.id ) {
       next()
     } else {
-      res
+      res 
         .status(400)
         .send({ error: 'not allowed: user is not creator of this resource' })
     }
-  }
+  }*/
 
   /**
    * Authorize: give certain access to user. Cheks i user is logged in.
