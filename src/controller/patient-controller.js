@@ -2,7 +2,21 @@ import { Patient } from "../models/patient-model.js"
 
 export class PatientController {
   async create(req, res, next) {
-    console.log(req.user.user)
+    let personnrDuplicate = await Patient.find({ personnr: req.body.personnr })
+    let phonenrDuplicate = await Patient.find({ phonenr: req.body.phonenr })
+    
+    console.log(personnrDuplicate[0], phonenrDuplicate[0])
+     // if email or username is true/exists the thow error
+    if (personnrDuplicate[0] !== undefined) {
+      res.status(409).send({ description: 'a user with this person number already exist.' })
+      return
+    }
+
+    if (phonenrDuplicate[0] !== undefined) {
+      res.status(409).send({ description: 'a user with this phone number already exist.' })
+      return
+    }
+
     try {
       const patient = new Patient({
         name: req.body.name,

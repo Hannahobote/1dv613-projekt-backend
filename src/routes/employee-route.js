@@ -8,7 +8,7 @@ const auth = new AuthController()
 
 
 // get all employees
-router.get('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.getAll(req, res , next))
+router.get('/', auth.authorize, auth.userPremissionAdmin, (req, res, next) => employee.read(req, res , next))
 
 
 // register (create)

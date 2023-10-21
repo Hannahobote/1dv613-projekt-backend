@@ -3,16 +3,33 @@ import bcrypt from 'bcrypt'
 
 export class EmployeeController {
 
-  async getAll(req, res, next) {
+  async read(req, res, next) {
     try {
-      //gets all users
-      let employee = await Employee.find({})
-      res.status(201).send({ employee })
+      const allEmployees = await Employee.find({})
+      res
+        .status(200)
+        .send(allEmployees)
     } catch (error) {
       next(error)
     }
   }
 
+  async readOne(req, res, next) {
+    try {
+      const employee = await Employee.findById({ _id: req.params.id })
+      if (employee) {
+        res
+          .status(200)
+          .send(employee)
+      } else {
+        res
+          .status(404)
+          .end()
+      }
+    } catch (error) {
+      next(error)
+    }
+  }
 
   async register(req, res, next) {
     try {
@@ -21,8 +38,6 @@ export class EmployeeController {
       let usernameDuplicate = await Employee.find({ username: req.body.username })
       let personnrDuplicate = await Employee.find({ personnr: req.body.personnr })
       let worknrDuplicate = await Employee.find({ worknr: req.body.worknr })
-
-      //console.log(usernameDuplicate[0], '  ', personnrDuplicate[0], ' ', worknrDuplicate[0])
 
       // if email or username is true/exists the thow error
       if (usernameDuplicate[0] !== undefined) {
@@ -67,34 +82,6 @@ export class EmployeeController {
     }
   }
 
-
-  async read(req, res, next) {
-    try {
-      const allEmployees = await Employee.find({})
-      res
-        .status(200)
-        .send(allEmployees)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  async readOne(req, res, next) {
-    try {
-      const employee = await Employee.findById({ _id: req.params.id })
-      if (employee) {
-        res
-          .status(200)
-          .send(employee)
-      } else {
-        res
-          .status(404)
-          .end()
-      }
-    } catch (error) {
-      next(error)
-    }
-  }
 
   async update(req, res, next) {
     try {
