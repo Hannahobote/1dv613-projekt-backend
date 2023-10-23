@@ -101,13 +101,27 @@ export class AuthController {
    * @param {*} next .
    */
   async userPremissionEmployeePatient(req, res, next) {
-    const patient = await Patient.find({ _id: req.params.id})
-    if(patient[0].kontaktman_id.toString() == req.user.user._id || req.user.user.role == "admin" ) {
-      next()
-    } else {
+    try {
+      let patient = await Patient.find({ _id: req.params.id})
+      if(patient.length == 0) {
+        res 
+          .status(404)
+          .send({ error: 'User does not exist.' })
+    
+      } else {
+        
+        if(patient[0].kontaktman_id.toString() == req.user.user._id || req.user.user.role == "admin" ) {
+          next()
+        } else {
+          res 
+            .status(400)
+            .send({ error: 'not allowed: user is not kontakt man of this resource or an admin' })
+        }
+  
+      }
+    } catch (error) {
       res 
-        .status(400)
-        .send({ error: 'not allowed: user is not kontakt man of this resource or an admin' })
+        .send(error.message)
     }
   }
 
