@@ -11,6 +11,7 @@ import { router as authRouter } from './routes/auth-route.js'
 import { router as docRoute } from './routes/document-route.js'
 import { router as patientRoute } from './routes/patient-route.js'
 import { router as employeeRoute } from './routes/employee-route.js'
+import cors from cors
 
 import dotenv from 'dotenv'
 import { connectDB } from './config/mongose.js'
@@ -43,6 +44,9 @@ app.use((req, res, next) => {
 
   next()
 })
+
+// enable pre-flight request for DELETE request
+app.options('/', cors())
 
 // Register routes.
 app.use('/api/patients', patientRoute)
