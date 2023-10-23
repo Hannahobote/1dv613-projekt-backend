@@ -100,17 +100,16 @@ export class AuthController {
    * @param {*} res .
    * @param {*} next .
    */
-  /*async userPremissionEmployeePatient(req, res, next) {
+  async userPremissionEmployeePatient(req, res, next) {
     const patient = await Patient.find({ _id: req.params.id})
-
-    if(patient.kontaktman._id = req.user.user.id ) {
+    if(patient[0].kontaktman_id.toString() == req.user.user._id || req.user.user.role == "admin" ) {
       next()
     } else {
       res 
         .status(400)
-        .send({ error: 'not allowed: user is not creator of this resource' })
+        .send({ error: 'not allowed: user is not kontakt man of this resource or an admin' })
     }
-  }*/
+  }
 
   /**
    * Authorize: give certain access to user. Cheks i user is logged in.

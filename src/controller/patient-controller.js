@@ -51,7 +51,7 @@ export class PatientController {
 
   async readOne(req, res, next) {
     try {
-      if(await this.patientExist(req.params.id)) {
+      if(await Patient.findById({ _id: req.params.id })) {
         const patient = await Patient.findById({ _id: req.params.id })
         res
           .status(200)
@@ -69,28 +69,35 @@ export class PatientController {
 
   async update(req, res, next) {
     try {
-      const result = await Patient.updateOne({ _id: req.params.id }, {
-        name: req.body.name,
-        surname: req.body.surname,
-        personnr: req.body.personnr,
-        phonenr: req.body.phonenr,
-        adress: req.body.adress,
-        kontaktman: req.body.kontaktman
-      })
+      if(await Patient.findById({ _id: req.params.id })) {
 
-      // validate update
-      if (result.acknowledged) {
-        // send updated 
-        const updatedPatient = await Patient.findOne({ _id: req.params.id})
-        res
-          .status(200)
-          .send({ 'Updated patient': updatedPatient })
+        const result = await Patient.updateOne({ _id: req.params.id }, {
+          name: req.body.name,
+          surname: req.body.surname,
+          personnr: req.body.personnr,
+          phonenr: req.body.phonenr,
+          adress: req.body.adress,
+          kontaktman: req.body.kontaktman
+        })
+  
+        // validate update
+        if (result.acknowledged) {
+          // send updated 
+          const updatedPatient = await Patient.findOne({ _id: req.params.id})
+          res
+            .status(200)
+            .send({ 'Updated patient': updatedPatient })
+        } else {
+          res
+            .status(400)
+            .send({ msg: 'Could not update' })
+        }
+  
       } else {
         res
-          .status(400)
-          .send({ msg: 'invalid credentials' })
+          .status(404)
+          .send('patient not found')
       }
-
     } catch (error) {
       next(error)
     }
@@ -99,7 +106,7 @@ export class PatientController {
 
   async delete(req, res, next) {
     try {
-      if(await this.patientExist(req.params.id)) {
+      if(await Patient.findById({ _id: req.params.id })) {
         await Patient.deleteOne({ _id: req.params.id })
         res
           .status(204)
@@ -112,17 +119,6 @@ export class PatientController {
       }
     } catch (error) {
       next(error)
-    }
-  }
-
- async patientExist(_id) {
-    const patient = await Patient.findOne({ _id })
-    if(patient === null) {
-      console.log('Patient not found')
-      return false
-    } else {
-      console.log('patient exist')
-      return true
     }
   }
 }
