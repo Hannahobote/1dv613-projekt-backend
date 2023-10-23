@@ -74,22 +74,27 @@ export class AuthController {
  * @param {*} next .
  */
   async userPremissionEmployeeDocument(req, res, next) {
-    const document = await Document.findById({ _id: req.params.id })
+    try {
+      const document = await Document.findById({ _id: req.params.id })
 
-    if(document) {
-      console.log(req.user.user.role)
-      // checks if signed in user is admin or creator of resource
-      if(document.author_id.toString() === req.user.user._id ||req.user.user.role == "admin" ) {
-        next()
+      if(document) {
+        // checks if signed in user is admin or creator of resource
+        if(document.author_id.toString() === req.user.user._id ||req.user.user.role == "admin" ) {
+          next()
+        } else {
+          res 
+            .status(400)
+            .send({ error: 'not allowed: user is not creator of this resource' })
+        }
       } else {
         res 
-          .status(400)
-          .send({ error: 'not allowed: user is not creator of this resource' })
+          .status(404)
+          .send({error: 'Document not found'})
       }
-    } else {
-      res 
-        .status(404)
-        .send({error: 'Document not found'})
+      
+    } catch (error) {
+      res
+        .send(error.message)
     }
   }
 
