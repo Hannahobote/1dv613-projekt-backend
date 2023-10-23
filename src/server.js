@@ -45,8 +45,11 @@ app.use((req, res, next) => {
   next()
 })
 
-// enable pre-flight request for DELETE request
-app.options('/', cors())
+// enable cors to client
+const corsOptions = {
+  origin: process.env.CORS
+}
+app.use(cors(corsOptions))
 
 // Register routes.
 app.use('/api/patients', patientRoute)
