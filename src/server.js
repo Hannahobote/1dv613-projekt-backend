@@ -25,7 +25,7 @@ const baseURL = process.env.BASE_URL || '/'
 await connectDB()
 
 // Create Express application.
-const app = express()
+export const app = express()
 
 // Set up a morgan logger using the dev format for log entries.
 app.use(logger('dev'))
