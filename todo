@@ -21,3 +21,17 @@ client
   https://reqbin.com/code/javascript/ricgaie0/javascript-fetch-bearer-token 
 [] id will be auto sent in req object when a user updates a certain document? (client)
   [] auto add user detailes of signed in patiend when patient is created (client)
+
+
+
+  Jest code snippet
+     /*expect(response.body).toHaveProperty('_id')
+      expect(response.body).toHaveProperty('username')
+      expect(response.body).toHaveProperty('password')
+      expect(response.body).toHaveProperty('name')
+      expect(response.body).toHaveProperty('surname')
+      expect(response.body).toHaveProperty('personnr')
+      expect(response.body).toHaveProperty('worknr')
+      expect(response.body).toHaveProperty('role')
+      expect(response.body).toHaveProperty('createdAt')
+      expect(response.body).toHaveProperty('updatedAt')*/
